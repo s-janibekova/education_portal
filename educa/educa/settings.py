@@ -26,6 +26,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
+AUTH_USER_MODEL = 'students.SimpleUser'
+LOGIN_REDIRECT_URL = "students:profile"
+LOGOUT_REDIRECT_URL = "students:login"
+
 # Application definition
 
 INSTALLED_APPS = [

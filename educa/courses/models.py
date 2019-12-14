@@ -5,6 +5,10 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from .fields import OrderField
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
+from django.conf import settings
+
+
+
 
 
 class Subject(models.Model):
@@ -19,9 +23,10 @@ class Subject(models.Model):
 
 
 class Course(models.Model):
-    owner = models.ForeignKey(User,
-                              related_name='courses_created',
-                              on_delete=models.CASCADE)
+    owner = settings.AUTH_USER_MODEL
+    # owner = models.ForeignKey(User,
+    #                           related_name='courses_created',
+    #                           on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject,
                                 related_name='courses',
                                 on_delete=models.CASCADE)
@@ -29,9 +34,10 @@ class Course(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     overview = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
-    students = models.ManyToManyField(User,
-                                      related_name='courses_joined',
-                                      blank=True)
+    students = settings.AUTH_USER_MODEL
+    # students = models.ManyToManyField(User,
+    #                                   related_name='courses_joined',
+    #                                   blank=True)
 
     class Meta:
         ordering = ['-created']
@@ -74,9 +80,10 @@ class Content(models.Model):
 
 
 class ItemBase(models.Model):
-    owner = models.ForeignKey(User,
-                              related_name='%(class)s_related',
-                              on_delete=models.CASCADE)
+    owner = settings.AUTH_USER_MODEL
+    # owner = models.ForeignKey(User,
+    #                           related_name='%(class)s_related',
+    #                           on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
